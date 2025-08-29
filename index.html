@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Psychology Glossary Practice</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0; padding: 0;
+    background: radial-gradient(circle at top left, #2b003f, #0d0017);
+    display: flex; justify-content: center;
+  }
+  .container {
+    max-width: 700px;
+    width: 95%;
+    background: rgba(40, 0, 60, 0.9);
+    margin: 20px;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(170, 0, 255, 0.6), 0 0 50px rgba(170, 0, 255, 0.3);
+    color: #eee;
+  }
+  h2 { 
+    text-align: center; 
+    font-size: 1.8rem; 
+    margin-bottom: 15px; 
+    color: #e5c6ff;
+    text-shadow: 0 0 8px #b833ff, 0 0 15px #a020f0;
+  }
+  .word { 
+    font-size: 1.4rem; 
+    font-weight: 600; 
+    text-align: center; 
+    margin: 15px 0; 
+    color: #f0d6ff;
+    text-shadow: 0 0 6px #a020f0;
+  }
+  textarea {
+    width: 100%;
+    height: 120px;
+    padding: 12px; font-size: 1rem;
+    border-radius: 12px; 
+    border: 2px solid #a020f0;
+    background: rgba(25,0,35,0.8);
+    color: #f9f1ff;
+    box-sizing: border-box;
+    outline: none;
+    box-shadow: inset 0 0 10px rgba(160,32,240,0.4);
+    transition: 0.2s;
+  }
+  textarea:focus {
+    border: 2px solid #ff55ff;
+    box-shadow: 0 0 15px #ff55ff, inset 0 0 10px rgba(255,85,255,0.5);
+  }
+  .stars { text-align: center; margin: 15px 0; }
+  .star { font-size: 2rem; cursor: pointer; color: #553366; transition: 0.3s; }
+  .star:hover { transform: scale(1.2); filter: drop-shadow(0 0 5px #ff55ff); }
+  .star.selected { color: #ff33ff; text-shadow: 0 0 8px #ff55ff; }
+  .row {
+    display: flex; justify-content: center;
+    flex-wrap: wrap; gap: 12px; margin: 15px 0;
+  }
+  button {
+    background: linear-gradient(145deg, #9a00ff, #6d00b5);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(160,32,240,0.6),
+                inset 0 -2px 5px rgba(255,255,255,0.2);
+    transition: all 0.25s ease;
+  }
+  button:hover {
+    background: linear-gradient(145deg, #c44dff, #9a00ff);
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 0 20px #ff55ff, 0 0 35px rgba(255,85,255,0.5);
+  }
+  #log {
+    background: rgba(30,0,40,0.7);
+    padding: 15px;
+    border-radius: 14px;
+    margin-top: 20px;
+    max-height: 260px;
+    overflow-y: auto;
+    font-size: 0.95rem;
+    color: #f3eaff;
+    box-shadow: inset 0 0 12px rgba(170,0,255,0.4);
+    box-sizing: border-box;
+  }
+  #log b { color: #ffccff; }
+  footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: #e5c6ff;
+    text-shadow: 0 0 6px #a020f0, 0 0 12px #ff55ff;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Psychology Glossary Practice</h2>
+  
+  <!-- Row 1: Navigation -->
+  <div class="row">
+    <button onclick="prevWord()">⬅ Back</button>
+    <button onclick="nextWord()">Next ➡</button>
+  </div>
+
+  <!-- Word -->
+  <div class="word" id="word"></div>
+  <textarea id="definition" placeholder="Write your definition here..."></textarea>
+
+  <!-- Stars -->
+  <div class="stars" id="stars"></div>
+
+  <!-- Row 2: Tools -->
+  <div class="row">
+    <button onclick="clearAll()">🧹 Clear All</button>
+    <button onclick="clearEntry()">✏ Clear Entry</button>
+    <button onclick="downloadEntriesTxt()">⬇ Save as TXT</button>
+  </div>
+
+  <!-- Log -->
+  <div id="log"></div>
+
+  <!-- Footer -->
+  <footer>
+    © Surbhi Sharma @surbhipsychtutor
+  </footer>
+</div>
+
+<script>
+// 175 words shuffled
+const concepts = [
+  "Absolute threshold","Achievement need/motive","Adolescence","Aerial perspective","Animism","Anxiety","Arousal",
+  "Artificial intelligence (AI)","Associative learning","Attachment","Attribution","Basic emotions","Behaviour genetics",
+  "Behaviour","Behaviourism","Bilingualism","Binocular cues","Biofeedback","Brainstorming","Case study","Centration",
+  "Cephalocaudal pattern","Chronological age","Chunking","Classical conditioning","Closure","Cognition","Cognitive approach",
+  "Cognitive learning","Cognitive map","Cognitive processes","Colour constancy","Concept","Concrete operational stage",
+  "Conditioned response (CR)","Conditioned stimulus (CS)","Conditioning","Confidentiality","Confounding","Consciousness",
+  "Conservation","Control group","Convergent thinking","Correlational research","Creativity","Culture","Debriefing",
+  "Decision-making","Deductive reasoning","Dependent variable","Depth perception","Development","Difference threshold",
+  "Discrimination","Divergent thinking","Divided attention","Dyslexia","Echoic memory","Egocentrism","Elaborative rehearsal",
+  "Encoding","Episodic memory","Esteem needs","Experiment","Experimental group","Explicit memory","Extinction",
+  "Fine motor skills","Formal operational stage","Free recall","Fugue state","Functional fixedness","Generalization","Genes",
+  "Gestalt psychology","Gross motor skills","Heredity","Hierarchy of needs","Homeostasis","Hormones","Humanistic psychology",
+  "Hypothesis","Identity vs role confusion","Illumination","Incubation","Independent variable","Individual test",
+  "Inductive reasoning","Infancy","Informed consent","Initiative vs guilt","Insight","Instinct","Integrity vs despair",
+  "Interference","Interposition","Interview","Intrinsic motivation","Introspection","Juvenile delinquency","Law of proximity",
+  "Law of similarity","Learning disabilities","Learning","Linear perspective","Maintenance rehearsal","Maturation","Menarche",
+  "Mental representation","Mental set","Mnemonics","Modeling","Monocular cues","Moral development","Morphemes","Motivation",
+  "Motives","Motor development","Need","Negative correlation","Negative reinforcer","Neuropsychology","Norms",
+  "Object permanence","Observation","Operant conditioning","Perception","Perceptual constancy","Phenotype","Phi phenomenon",
+  "Physiological psychology","Positive reinforcement","Power motive","Prenatal period","Pre-operational stage",
+  "Primary sex characteristics","Proximodistal trend","Psychoanalysis","Psychological test","Psychophysics","Puberty",
+  "Punishment","Randomisation","Reasoning","Reinforcement","Reliability","Retrieval cues","Retroactive interference",
+  "Selective attention","Self","Self-actualisation","Self-esteem","Semantic memory","Sensation","Sensorimotor stage",
+  "Sensory memory","Serial learning","Shape constancy","Size constancy","Spontaneous recovery","Standardisation","Stimulus",
+  "Structuralism","Survey","Temperament","Texture gradient","Trust vs mistrust","Unconditioned response (UR)",
+  "Unconditioned stimulus (US)","Validity","Variable","Verbal learning","Visual illusions","Word associations","Working memory"
+].sort(() => Math.random() - 0.5);
+
+let currentIndex = 0;
+let entries = JSON.parse(localStorage.getItem("psychEntries")) || {};
+
+const wordEl = document.getElementById("word");
+const defEl = document.getElementById("definition");
+const starsEl = document.getElementById("stars");
+const logEl = document.getElementById("log");
+
+// setup stars
+for (let i = 1; i <= 5; i++) {
+  const span = document.createElement("span");
+  span.classList.add("star");
+  span.textContent = "★";
+  span.onclick = () => rate(i);
+  starsEl.appendChild(span);
+}
+
+// auto-save on typing
+defEl.addEventListener("input", saveEntry);
+
+function showWord() {
+  const word = concepts[currentIndex];
+  wordEl.textContent = word;
+  defEl.value = entries[word]?.definition || "";
+  highlightStars(entries[word]?.rating || 0);
+  updateLog();
+}
+
+function saveEntry() {
+  const word = concepts[currentIndex];
+  entries[word] = {
+    definition: defEl.value,
+    rating: entries[word]?.rating || 0
+  };
+  localStorage.setItem("psychEntries", JSON.stringify(entries));
+  updateLog();
+}
+
+function rate(stars) {
+  const word = concepts[currentIndex];
+  if (!entries[word]) entries[word] = { definition: "", rating: 0 };
+  entries[word].rating = stars;
+  localStorage.setItem("psychEntries", JSON.stringify(entries));
+  highlightStars(stars);
+  updateLog();
+}
+
+function highlightStars(n) {
+  [...starsEl.children].forEach((s,i)=>s.classList.toggle("selected", i<n));
+}
+
+function prevWord(){ if(currentIndex>0){currentIndex--; showWord();} }
+function nextWord(){ if(currentIndex<concepts.length-1){currentIndex++; showWord();} }
+
+function clearAll(){ if(confirm("Clear all entries?")){entries={};localStorage.removeItem("psychEntries");showWord();} }
+function clearEntry(){
+  const word = concepts[currentIndex];
+  delete entries[word];
+  localStorage.setItem("psychEntries", JSON.stringify(entries));
+  defEl.value=""; highlightStars(0); updateLog();
+}
+
+function updateLog(){
+  logEl.innerHTML="";
+  for(const w of concepts){
+    if(entries[w]){
+      const div=document.createElement("div");
+      div.innerHTML=`<b>${w}</b>: ${entries[w].definition} ⭐${entries[w].rating}`;
+      logEl.appendChild(div);
+    }
+  }
+}
+
+function downloadEntriesTxt(){
+  let text="";
+  for(const w of concepts){
+    if(entries[w]) text+=`${w}: ${entries[w].definition} (⭐${entries[w].rating})\n\n`;
+  }
+  const blob=new Blob([text],{type:"text/plain"});
+  const link=document.createElement("a");
+  link.href=URL.createObjectURL(blob);
+  link.download="psychology_glossary.txt";
+  link.click();
+}
+
+showWord();
+</script>
+</body>
+</html>
