@@ -2,7 +2,9 @@
 Psychology Glossary Practice class 11
 Created and maintained by @surbhipsychtutor 💻📘
 
-This aims to make psychology fun, visual, and easier to understand through gamified, interactive experiences. 🖥 Web-based – runs on any browser!
+This aims to make psychology fun, visual, and easier to understand through gamified, interactive experiences. 
+
+🖥 Web-based – runs on any browser!
 
 📜 License & Usage Policy All content in this repository, including code, visuals, and ideas, is copyrighted and owned by Surbhi Sharma. 🔒 This repository and its contents are:
 
